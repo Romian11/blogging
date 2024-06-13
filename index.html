@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <center>
+      <div style="display: grid">
+        <input type="text" style="width: 220px" id="input_query" />
+        <button
+          type="button"
+          style="
+            height: 20px;
+            width: 150px;
+            margin-left: 50px;
+            margin-top: 20px;
+          "
+          onclick="getData()"
+        >
+          Enter
+        </button>
+        <div id="ans">Answer to your query</div>
+      </div>
+    </center>
+
+    <script>
+      async function getData() {
+        const input = document.getElementById("input_query").value;
+
+        const url =
+          "https://chat-gpt-43.p.rapidapi.com/?question=" +
+          encodeURIComponent(input);
+        const options = {
+          method: "GET",
+          headers: {
+            "X-RapidAPI-Key":
+              "280f5ef259mshfb74729579a274cp1a1ab8jsn764d7c84c1c7",
+            "X-RapidAPI-Host": "chat-gpt-43.p.rapidapi.com",
+          },
+        };
+
+        try {
+          const response = await fetch(url, options);
+          const result = await response.json(); // Parse JSON response
+          console.log(result);
+          if (result.answer) {
+            document.getElementById("ans").innerText = result.answer; // Display answer in the HTML
+          } else {
+            document.getElementById("ans").innerText = "No answer found";
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    </script>
+  </body>
+</html>
